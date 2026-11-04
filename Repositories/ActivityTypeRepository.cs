@@ -1,79 +1,74 @@
-﻿using _4VGymEF.Models;
+﻿using _4VGymEF.Data;
+using _4VGymEF.Models;
 
 namespace _4VGymEF.Repositories
 {
     public class ActivityTypeRepository
     {
-        private List<ActivityType> _activityTypes = new();
-        private int _nextId = 1;
-        public ActivityTypeRepository()
+        private readonly GymDbContext _bdGymContext;
+
+        public ActivityTypeRepository(GymDbContext gymDbContext)
         {
-            SeedData(); // Precargamos algunos datos de prueba
+            _bdGymContext = gymDbContext;
         }
-        private void SeedData()
+
+        public List<ActivityType> GetAll()
         {
-            _activityTypes = new List<ActivityType>()
-            {
-                new ActivityType (10, "BodyPump",  2 ),
-                new ActivityType ( 20, "Spinning",  1 ),
-                new ActivityType { Id = 30, Name = "Pilates", NumberInstructors = 1 }
-            };
-            _activityTypes.Add(new ActivityType(40, "CrossFit", 3));
-        }
-        // Método para obtener todos los tipos de actividades
-        public IEnumerable<ActivityType> GetAll()
-        {
-            return _activityTypes;
+            return _bdGymContext.ActivityTypes.ToList();
         }
 
         public ActivityType? GetByName(string name)
         {
-            return _activityTypes.SingleOrDefault(at =>
-          string.Equals(at.Name, name, StringComparison.OrdinalIgnoreCase));
+            return _bdGymContext.ActivityTypes
+                .FirstOrDefault(at => at.Name.ToLower() == name.ToLower());
         }
 
-        public ActivityType? Add(ActivityType activityType, out ErrorResponse? errorResponse)
+        public ActivityTypeCreateDto? Add(ActivityTypeCreateDto activityType, out ErrorResponse? errorResponse)
         {
-            errorResponse = null; // Inicializamos a null para cuando no hay error
+            errorResponse = null;
 
-            // Validaciones
             if (activityType == null)
             {
                 errorResponse = new ErrorResponse(3, "Invalid activity type data");
                 return null;
-
             }
-            if (activityType.Name == null)
+
+            if (string.IsNullOrWhiteSpace(activityType.Name))
             {
                 errorResponse = new ErrorResponse(4, "The name of the activity is mandatory");
                 return null;
             }
-            if (activityType.NumberInstructors < 1)
+
+            if (activityType.NumberMonitors < 1)
             {
-                activityType.NumberInstructors = 1;
+                activityType.NumberMonitors = 1;
             }
-            // No puede haber tipos de actividad con el mismo nombre
-            if (this.GetByName(activityType.Name) != null)
+
+            if (GetByName(activityType.Name) != null)
             {
-                errorResponse = new ErrorResponse(6, "The name is unique, there is already another ActivityType with the same Name");
+                errorResponse = new ErrorResponse(6,
+                    "The name is unique, there is already another ActivityType with the same Name");
                 return null;
             }
 
-            // Asignamos el ID autoincremental en la capa de datos, o sea que machacamos el que venia
-            activityType.Id = _nextId++;
+            ActivityType nuevoActivityType = new ActivityType
+            {
+                Name = activityType.Name,
+                NumberInstructors = activityType.NumberMonitors
+            };
 
-            _activityTypes.Add(activityType);
+            _bdGymContext.ActivityTypes.Add(nuevoActivityType);
+            _bdGymContext.SaveChanges();
 
-            // Devolvemos el objeto completo tal como se ha guardado
+            activityType.Id = nuevoActivityType.Id;
+
             return activityType;
         }
 
         public ActivityType? GetById(long id)
         {
-            return _activityTypes.FirstOrDefault(activityType => activityType.Id == id);
+            return _bdGymContext.ActivityTypes
+                .FirstOrDefault(at => at.Id == id);
         }
-
-
     }
-
 }
