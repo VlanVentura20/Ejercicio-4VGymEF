@@ -14,7 +14,7 @@ BEGIN TRY
 
     -- IDs fijos para que las claves foraneas sean predecibles.
     SET IDENTITY_INSERT dbo.ActivityTypes ON;
-    INSERT INTO dbo.ActivityTypes (Id, Name, NumberMonitors) VALUES
+    INSERT INTO dbo.ActivityTypes (Id, Name, NumberInstructors) VALUES
     (1, N'BodyPump', 2),
     (2, N'Spinning', 1),
     (3, N'Pilates', 1),

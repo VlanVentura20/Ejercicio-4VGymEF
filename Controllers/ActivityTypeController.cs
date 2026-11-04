@@ -3,7 +3,7 @@ using _4VGymEF.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("activity-type")]
+[Route("activity-types")]
 public class ActivityTypeController : ControllerBase
 {
     private readonly ActivityTypeRepository _repository;

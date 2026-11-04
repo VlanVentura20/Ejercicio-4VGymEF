@@ -76,7 +76,7 @@ namespace _4VGymEF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberMonitors")
+                    b.Property<int>("NumberInstructors")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

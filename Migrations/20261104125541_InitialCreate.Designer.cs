@@ -12,7 +12,7 @@ using _4VGymEF.Data;
 namespace _4VGymEF.Migrations
 {
     [DbContext(typeof(GymDbContext))]
-    [Migration("20261028120212_InitialCreate")]
+    [Migration("20261104125541_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -79,7 +79,7 @@ namespace _4VGymEF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberMonitors")
+                    b.Property<int>("NumberInstructors")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
