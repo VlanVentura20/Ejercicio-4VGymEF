@@ -18,7 +18,7 @@ namespace _4VGymEF.Models
         public required List<int> InstructorsId { get; set; }
 
         [JsonPropertyName("max_particpants")]
-        [Range(1, 25, ErrorMessage = "25|El aforo máximo debe estar entre 1 y 100 participantes.")]
+        [Range(1, 100, ErrorMessage = "25|El aforo máximo debe estar entre 1 y 100 participantes.")]
         public int MaxParticipants { get; set; }
 
         [JsonPropertyName("date_start")]
