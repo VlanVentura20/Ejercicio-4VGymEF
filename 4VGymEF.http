@@ -1,20 +1,26 @@
 @_4VGymEF_HostAddress = http://localhost:5117
 
+### GET - Todos los tipos de actividad
 GET {{_4VGymEF_HostAddress}}/activity-types
 Accept: application/json
 
-###
-
+### GET - Instructor existente
 GET {{_4VGymEF_HostAddress}}/instructors/2
 Accept: application/json
 
-###
-
-GET {{_4VGymEF_HostAddress}}/instructors?first_initial=
+### GET - Instructor inexistente
+GET {{_4VGymEF_HostAddress}}/instructors/999
 Accept: application/json
 
-###
+### GET - Instructores por inicial
+GET {{_4VGymEF_HostAddress}}/instructors?first_initial=a
+Accept: application/json
 
+### GET - Inicial sin resultados (depende de los datos)
+GET {{_4VGymEF_HostAddress}}/instructors?first_initial=z
+Accept: application/json
+
+### POST ActivityTypes - Correcto
 POST {{_4VGymEF_HostAddress}}/activity-types
 Content-Type: application/json
 
@@ -23,14 +29,13 @@ Content-Type: application/json
   "number-monitors": 3
 }
 
-### Para hacer un POST de Actividades JSOn Vacio
+### POST ActivityTypes - JSON vacío
 POST {{_4VGymEF_HostAddress}}/activity-types
 Content-Type: application/json
 
-{
-}
+{}
 
-### Para hacer un POST de Actividades sin nombre
+### POST ActivityTypes - Sin nombre
 POST {{_4VGymEF_HostAddress}}/activity-types
 Content-Type: application/json
 
@@ -38,7 +43,7 @@ Content-Type: application/json
   "number-monitors": 3
 }
 
-### Para hacer un POST de Actividades con nombre vacio
+### POST ActivityTypes - Nombre vacío
 POST {{_4VGymEF_HostAddress}}/activity-types
 Content-Type: application/json
 
@@ -47,7 +52,7 @@ Content-Type: application/json
   "number-monitors": 3
 }
 
-### Para hacer un POST de Actividades sin numero de monitores
+### POST ActivityTypes - Sin número de monitores
 POST {{_4VGymEF_HostAddress}}/activity-types
 Content-Type: application/json
 
@@ -55,18 +60,45 @@ Content-Type: application/json
   "name": "Actividad1"
 }
 
-### Para hacer un POST de Instructors happy path
+### POST ActivityTypes - Monitores negativos
+POST {{_4VGymEF_HostAddress}}/activity-types
+Content-Type: application/json
+
+{
+  "name": "ActividadNegativa",
+  "number-monitors": -1
+}
+
+### POST ActivityTypes - Cero monitores
+POST {{_4VGymEF_HostAddress}}/activity-types
+Content-Type: application/json
+
+{
+  "name": "ActividadSinMonitores",
+  "number-monitors": 0
+}
+
+### POST ActivityTypes - Nombre duplicado (si existe BodyPump)
+POST {{_4VGymEF_HostAddress}}/activity-types
+Content-Type: application/json
+
+{
+  "name": "BodyPump",
+  "number-monitors": 2
+}
+
+### POST Instructors - Correcto
 POST {{_4VGymEF_HostAddress}}/instructors
 Content-Type: application/json
 
 {
-  "name": "David Noyaa",
+  "name": "David Noyaaa",
   "phone": "666554433",
   "email": "david_noya2@gmail.com",
   "photo_url": "http://www.davidnoya.com/david_noya.jpg"
 }
 
-### Para hacer un POST de Instructors Telefono incorrecto
+### POST Instructors - Teléfono incorrecto
 POST {{_4VGymEF_HostAddress}}/instructors
 Content-Type: application/json
 
@@ -77,19 +109,18 @@ Content-Type: application/json
   "photo_url": "http://www.davidnoya.com/david_noya.jpg"
 }
 
-
-### Para hacer un POST de Instructors Email Incorrecto
+### POST Instructors - Email incorrecto
 POST {{_4VGymEF_HostAddress}}/instructors
 Content-Type: application/json
 
 {
   "name": "David Noya",
   "phone": "666554433",
-  "email": "david_noya@cuatrovientos.org",
+  "email": "david_noya-cuatrovientos.org",
   "photo_url": "http://www.davidnoya.com/david_noya.jpg"
 }
 
-### Para hacer un POST de Instructors Telefono obligatorio
+### POST Instructors - Teléfono obligatorio
 POST {{_4VGymEF_HostAddress}}/instructors
 Content-Type: application/json
 
@@ -99,33 +130,223 @@ Content-Type: application/json
   "photo_url": "http://www.davidnoya.com/david_noya.jpg"
 }
 
-### Para hacer un POST de Instructors nulo
+### POST Instructors - JSON vacío
+POST {{_4VGymEF_HostAddress}}/instructors
+Content-Type: application/json
+
+{}
+
+### POST Instructors - Sin nombre
 POST {{_4VGymEF_HostAddress}}/instructors
 Content-Type: application/json
 
 {
+  "phone": "666554433",
+  "email": "sin_nombre@gmail.com",
+  "photo_url": "https://example.com/foto.jpg"
 }
 
-### Para hacer un POST de Actividades
+### POST Instructors - Nombre vacío
+POST {{_4VGymEF_HostAddress}}/instructors
+Content-Type: application/json
+
+{
+  "name": "",
+  "phone": "666554433",
+  "email": "nombre_vacio@gmail.com",
+  "photo_url": "https://example.com/foto.jpg"
+}
+
+### POST Instructors - Sin email
+POST {{_4VGymEF_HostAddress}}/instructors
+Content-Type: application/json
+
+{
+  "name": "Instructor Sin Email",
+  "phone": "666554433",
+  "photo_url": "https://example.com/foto.jpg"
+}
+
+### POST Instructors - URL de foto incorrecta
+POST {{_4VGymEF_HostAddress}}/instructors
+Content-Type: application/json
+
+{
+  "name": "Instructor Foto",
+  "phone": "666554433",
+  "email": "foto_incorrecta@gmail.com",
+  "photo_url": "esto-no-es-una-url"
+}
+
+### POST Instructors - Email duplicado (si existe ana@example.com)
+POST {{_4VGymEF_HostAddress}}/instructors
+Content-Type: application/json
+
+{
+  "name": "Ana Garcíaa",
+  "phone": "666554433",
+  "email": "ana@example.com",
+  "photo_url": "https://example.com/ana.jpg"
+}
+
+### POST Activities - Correcto
 POST {{_4VGymEF_HostAddress}}/activities
 Content-Type: application/json
 
 {
   "activity_type_id": 1,
-  "instructors_id": [1,2],
+  "instructors_id": [1, 2],
   "max_particpants": 20,
-  "date_start": "2026-10-22T11:05:48.852Z",
-  "date_end": "2026-10-22T12:05:48.852Z"
+  "date_start": "2026-12-22T11:05:48.852Z",
+  "date_end": "2026-12-22T12:05:48.852Z"
 }
 
-### Para hacer un POST de Actividades con fecha de inicio incorrecta
+### POST Activities - JSON vacío
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{}
+
+### POST Activities - Fecha de inicio en el pasado
 POST {{_4VGymEF_HostAddress}}/activities
 Content-Type: application/json
 
 {
   "activity_type_id": 1,
-  "instructors_id": [1,2],
+  "instructors_id": [1, 2],
   "max_particpants": 20,
   "date_start": "2025-10-21T11:05:48.852Z",
-  "date_end": "2024-10-21T12:05:48.852Z"
+  "date_end": "2026-12-21T12:05:48.852Z"
+}
+
+### POST Activities - Fecha final anterior a la inicial
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 2],
+  "max_particpants": 20,
+  "date_start": "2026-12-26T12:00:00Z",
+  "date_end": "2026-12-26T11:00:00Z"
+}
+
+### POST Activities - Fecha final igual a la inicial
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 2],
+  "max_particpants": 20,
+  "date_start": "2026-12-28T12:00:00Z",
+  "date_end": "2026-12-28T12:00:00Z"
+}
+
+### POST Activities - Tipo de actividad inexistente
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 999,
+  "instructors_id": [1, 2],
+  "max_particpants": 20,
+  "date_start": "2026-12-22T11:00:00Z",
+  "date_end": "2026-12-22T12:00:00Z"
+}
+
+### POST Activities - Instructor inexistente
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 999],
+  "max_particpants": 20,
+  "date_start": "2026-12-23T11:00:00Z",
+  "date_end": "2026-12-23T12:00:00Z"
+}
+
+### POST Activities - Instructores insuficientes (si tipo 1 requiere 2)
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1],
+  "max_particpants": 20,
+  "date_start": "2026-12-24T11:00:00Z",
+  "date_end": "2026-12-24T12:00:00Z"
+}
+
+### POST Activities - Instructores repetidos
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 1],
+  "max_particpants": 20,
+  "date_start": "2026-12-25T11:00:00Z",
+  "date_end": "2026-12-25T12:00:00Z"
+}
+
+### POST Activities - Lista de instructores vacía
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [],
+  "max_particpants": 20,
+  "date_start": "2026-12-29T11:00:00Z",
+  "date_end": "2026-12-29T12:00:00Z"
+}
+
+### POST Activities - Participantes negativos
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 2],
+  "max_particpants": -5,
+  "date_start": "2026-12-27T11:00:00Z",
+  "date_end": "2026-12-27T12:00:00Z"
+}
+
+### POST Activities - Cero participantes
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 2],
+  "max_particpants": 0,
+  "date_start": "2026-12-30T11:00:00Z",
+  "date_end": "2026-12-30T12:00:00Z"
+}
+
+### POST Activities - Solapamiento: ejecutar primero esta petición
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 2],
+  "max_particpants": 20,
+  "date_start": "2027-01-15T10:00:00Z",
+  "date_end": "2027-01-15T11:00:00Z"
+}
+
+### POST Activities - Solapamiento: ejecutar después de la anterior
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 3],
+  "max_particpants": 20,
+  "date_start": "2027-01-15T10:30:00Z",
+  "date_end": "2027-01-15T11:30:00Z"
 }
