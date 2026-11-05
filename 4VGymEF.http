@@ -1,10 +1,11 @@
+
 @_4VGymEF_HostAddress = http://localhost:5117
 
 ### GET - Todos los tipos de actividad
 GET {{_4VGymEF_HostAddress}}/activity-types
 Accept: application/json
 
-### GET - Instructor existente
+### GET - Instructor existente (Markel López)
 GET {{_4VGymEF_HostAddress}}/instructors/2
 Accept: application/json
 
@@ -12,13 +13,14 @@ Accept: application/json
 GET {{_4VGymEF_HostAddress}}/instructors/999
 Accept: application/json
 
-### GET - Instructores por inicial
+### GET - Instructores por inicial A (Ana García y Ander Ruiz)
 GET {{_4VGymEF_HostAddress}}/instructors?first_initial=a
 Accept: application/json
 
-### GET - Inicial sin resultados (depende de los datos)
+### GET - Inicial sin resultados
 GET {{_4VGymEF_HostAddress}}/instructors?first_initial=z
 Accept: application/json
+
 
 ### POST ActivityTypes - Correcto
 POST {{_4VGymEF_HostAddress}}/activity-types
@@ -78,7 +80,7 @@ Content-Type: application/json
   "number-monitors": 0
 }
 
-### POST ActivityTypes - Nombre duplicado (si existe BodyPump)
+### POST ActivityTypes - Nombre duplicado (BodyPump ya existe)
 POST {{_4VGymEF_HostAddress}}/activity-types
 Content-Type: application/json
 
@@ -87,15 +89,16 @@ Content-Type: application/json
   "number-monitors": 2
 }
 
+
 ### POST Instructors - Correcto
 POST {{_4VGymEF_HostAddress}}/instructors
 Content-Type: application/json
 
 {
-  "name": "David Noyaaa",
+  "name": "David Noya",
   "phone": "666554433",
   "email": "david_noya2@gmail.com",
-  "photo_url": "http://www.davidnoya.com/david_noya.jpg"
+  "photo_url": "https://example.com/david_noya.jpg"
 }
 
 ### POST Instructors - Teléfono incorrecto
@@ -106,7 +109,7 @@ Content-Type: application/json
   "name": "David Noya",
   "phone": "adsadsa",
   "email": "david_noya@cuatrovientos.org",
-  "photo_url": "http://www.davidnoya.com/david_noya.jpg"
+  "photo_url": "https://example.com/david_noya.jpg"
 }
 
 ### POST Instructors - Email incorrecto
@@ -117,7 +120,7 @@ Content-Type: application/json
   "name": "David Noya",
   "phone": "666554433",
   "email": "david_noya-cuatrovientos.org",
-  "photo_url": "http://www.davidnoya.com/david_noya.jpg"
+  "photo_url": "https://example.com/david_noya.jpg"
 }
 
 ### POST Instructors - Teléfono obligatorio
@@ -127,7 +130,7 @@ Content-Type: application/json
 {
   "name": "David Noya",
   "email": "david_noya@cuatrovientos.org",
-  "photo_url": "http://www.davidnoya.com/david_noya.jpg"
+  "photo_url": "https://example.com/david_noya.jpg"
 }
 
 ### POST Instructors - JSON vacío
@@ -178,18 +181,18 @@ Content-Type: application/json
   "photo_url": "esto-no-es-una-url"
 }
 
-### POST Instructors - Email duplicado (si existe ana@example.com)
+### POST Instructors - Email duplicado (Ana García)
 POST {{_4VGymEF_HostAddress}}/instructors
 Content-Type: application/json
 
 {
-  "name": "Ana Garcíaa",
-  "phone": "666554433",
+  "name": "Ana García",
+  "phone": "600123456",
   "email": "ana@example.com",
   "photo_url": "https://example.com/ana.jpg"
 }
 
-### POST Activities - Correcto
+### POST Activities - Correcto (BodyPump, 2 instructores)
 POST {{_4VGymEF_HostAddress}}/activities
 Content-Type: application/json
 
@@ -197,8 +200,32 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 2],
   "max_particpants": 20,
-  "date_start": "2026-12-22T11:05:48.852Z",
-  "date_end": "2026-12-22T12:05:48.852Z"
+  "date_start": "2026-12-22T11:00:00",
+  "date_end": "2026-12-22T12:00:00"
+}
+
+### POST Activities - Correcto (Spinning, 1 instructor)
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 2,
+  "instructors_id": [3],
+  "max_particpants": 15,
+  "date_start": "2026-12-23T10:00:00",
+  "date_end": "2026-12-23T11:00:00"
+}
+
+### POST Activities - Correcto (CrossFit, 3 instructores)
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 4,
+  "instructors_id": [4, 5, 6],
+  "max_particpants": 16,
+  "date_start": "2026-12-24T12:00:00",
+  "date_end": "2026-12-24T13:00:00"
 }
 
 ### POST Activities - JSON vacío
@@ -215,8 +242,8 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 2],
   "max_particpants": 20,
-  "date_start": "2025-10-21T11:05:48.852Z",
-  "date_end": "2026-12-21T12:05:48.852Z"
+  "date_start": "2025-10-21T11:00:00",
+  "date_end": "2025-10-21T12:00:00"
 }
 
 ### POST Activities - Fecha final anterior a la inicial
@@ -227,8 +254,8 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 2],
   "max_particpants": 20,
-  "date_start": "2026-12-26T12:00:00Z",
-  "date_end": "2026-12-26T11:00:00Z"
+  "date_start": "2026-12-26T12:00:00",
+  "date_end": "2026-12-26T11:00:00"
 }
 
 ### POST Activities - Fecha final igual a la inicial
@@ -239,8 +266,8 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 2],
   "max_particpants": 20,
-  "date_start": "2026-12-28T12:00:00Z",
-  "date_end": "2026-12-28T12:00:00Z"
+  "date_start": "2026-12-28T12:00:00",
+  "date_end": "2026-12-28T12:00:00"
 }
 
 ### POST Activities - Tipo de actividad inexistente
@@ -251,8 +278,8 @@ Content-Type: application/json
   "activity_type_id": 999,
   "instructors_id": [1, 2],
   "max_particpants": 20,
-  "date_start": "2026-12-22T11:00:00Z",
-  "date_end": "2026-12-22T12:00:00Z"
+  "date_start": "2026-12-22T15:00:00",
+  "date_end": "2026-12-22T16:00:00"
 }
 
 ### POST Activities - Instructor inexistente
@@ -263,11 +290,11 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 999],
   "max_particpants": 20,
-  "date_start": "2026-12-23T11:00:00Z",
-  "date_end": "2026-12-23T12:00:00Z"
+  "date_start": "2026-12-23T15:00:00",
+  "date_end": "2026-12-23T16:00:00"
 }
 
-### POST Activities - Instructores insuficientes (si tipo 1 requiere 2)
+### POST Activities - Instructores insuficientes (BodyPump requiere 2)
 POST {{_4VGymEF_HostAddress}}/activities
 Content-Type: application/json
 
@@ -275,8 +302,20 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1],
   "max_particpants": 20,
-  "date_start": "2026-12-24T11:00:00Z",
-  "date_end": "2026-12-24T12:00:00Z"
+  "date_start": "2026-12-24T15:00:00",
+  "date_end": "2026-12-24T16:00:00"
+}
+
+### POST Activities - Instructores insuficientes (CrossFit requiere 3)
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 4,
+  "instructors_id": [4, 5],
+  "max_particpants": 16,
+  "date_start": "2026-12-25T11:00:00",
+  "date_end": "2026-12-25T12:00:00"
 }
 
 ### POST Activities - Instructores repetidos
@@ -287,8 +326,8 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 1],
   "max_particpants": 20,
-  "date_start": "2026-12-25T11:00:00Z",
-  "date_end": "2026-12-25T12:00:00Z"
+  "date_start": "2026-12-25T15:00:00",
+  "date_end": "2026-12-25T16:00:00"
 }
 
 ### POST Activities - Lista de instructores vacía
@@ -299,8 +338,19 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [],
   "max_particpants": 20,
-  "date_start": "2026-12-29T11:00:00Z",
-  "date_end": "2026-12-29T12:00:00Z"
+  "date_start": "2026-12-29T11:00:00",
+  "date_end": "2026-12-29T12:00:00"
+}
+
+### POST Activities - Sin lista de instructores
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "max_particpants": 20,
+  "date_start": "2026-12-29T15:00:00",
+  "date_end": "2026-12-29T16:00:00"
 }
 
 ### POST Activities - Participantes negativos
@@ -311,8 +361,8 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 2],
   "max_particpants": -5,
-  "date_start": "2026-12-27T11:00:00Z",
-  "date_end": "2026-12-27T12:00:00Z"
+  "date_start": "2026-12-27T11:00:00",
+  "date_end": "2026-12-27T12:00:00"
 }
 
 ### POST Activities - Cero participantes
@@ -323,11 +373,66 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 2],
   "max_particpants": 0,
-  "date_start": "2026-12-30T11:00:00Z",
-  "date_end": "2026-12-30T12:00:00Z"
+  "date_start": "2026-12-30T11:00:00",
+  "date_end": "2026-12-30T12:00:00"
 }
 
-### POST Activities - Solapamiento: ejecutar primero esta petición
+### POST Activities - Más de 25 participantes
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 2],
+  "max_particpants": 30,
+  "date_start": "2026-12-30T15:00:00",
+  "date_end": "2026-12-30T16:00:00"
+}
+
+
+### POST Activities - Solapamiento con datos SQL existentes
+### Actividad 1: BodyPump, Ana y Markel, 09/11 de 09:00 a 10:00
+### Se intenta asignar a Ana otra actividad de 09:30 a 10:30
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 2,
+  "instructors_id": [1],
+  "max_particpants": 15,
+  "date_start": "2026-11-09T09:30:00",
+  "date_end": "2026-11-09T10:30:00"
+}
+
+### POST Activities - Solapamiento con datos SQL existentes
+### Actividad 4: CrossFit, Markel, Ander y Marta, 11:00 a 12:00
+### Se intenta asignar a Markel de 11:30 a 12:30
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 2,
+  "instructors_id": [2],
+  "max_particpants": 15,
+  "date_start": "2026-11-09T11:30:00",
+  "date_end": "2026-11-09T12:30:00"
+}
+
+### POST Activities - Sin solapamiento (mismo día, otro horario)
+### Ana termina a las 10:00 en la actividad 1
+### Nueva actividad de 12:00 a 13:00
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 2,
+  "instructors_id": [1],
+  "max_particpants": 15,
+  "date_start": "2026-11-09T12:00:00",
+  "date_end": "2026-11-09T13:00:00"
+}
+
+### POST Activities - Solapamiento: ejecutar primero
 POST {{_4VGymEF_HostAddress}}/activities
 Content-Type: application/json
 
@@ -335,11 +440,12 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 2],
   "max_particpants": 20,
-  "date_start": "2027-01-15T10:00:00Z",
-  "date_end": "2027-01-15T11:00:00Z"
+  "date_start": "2027-01-15T10:00:00",
+  "date_end": "2027-01-15T11:00:00"
 }
 
 ### POST Activities - Solapamiento: ejecutar después de la anterior
+### Ana está ocupada de 10:00 a 11:00
 POST {{_4VGymEF_HostAddress}}/activities
 Content-Type: application/json
 
@@ -347,6 +453,19 @@ Content-Type: application/json
   "activity_type_id": 1,
   "instructors_id": [1, 3],
   "max_particpants": 20,
-  "date_start": "2027-01-15T10:30:00Z",
-  "date_end": "2027-01-15T11:30:00Z"
+  "date_start": "2027-01-15T10:30:00",
+  "date_end": "2027-01-15T11:30:00"
+}
+
+### POST Activities - Sin solapamiento: comienza cuando termina la anterior
+### Ana y Markel quedan libres a las 11:00
+POST {{_4VGymEF_HostAddress}}/activities
+Content-Type: application/json
+
+{
+  "activity_type_id": 1,
+  "instructors_id": [1, 2],
+  "max_particpants": 20,
+  "date_start": "2027-01-15T11:00:00",
+  "date_end": "2027-01-15T12:00:00"
 }
